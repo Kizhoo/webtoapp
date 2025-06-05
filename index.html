@@ -3,297 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web2App Converter Pro - Konversi Website ke Aplikasi Android</title>
+    <title>Web2APK Converter - Ubah Website ke Aplikasi Android</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
     <style>
         :root {
-            --primary: #6a11cb;
-            --secondary: #2575fc;
-            --accent: #ff4e50;
-            --dark: #1a1a2e;
+            --primary: #4285f4;
+            --secondary: #1a73e8;
+            --accent: #34a853;
+            --warning: #fbbc05;
+            --error: #ea4335;
+            --dark: #202124;
             --light: #f8f9fa;
-            --success: #1ce37c;
-            --warning: #ff9a3c;
-            --card-bg: rgba(26, 26, 46, 0.85);
-            --text-light: #e6e6ff;
+            --gray: #5f6368;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: var(--text-light);
+            background: linear-gradient(135deg, #f5f7fa, #e4e7eb);
+            color: var(--dark);
             min-height: 100vh;
-            padding-bottom: 2rem;
             line-height: 1.6;
-        }
-        
-        @font-face {
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 400;
-            src: url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
+            padding-bottom: 40px;
         }
         
         header {
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(12px);
-            padding: 1.2rem 2rem;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
-            border-bottom: 1px solid rgba(102, 16, 242, 0.3);
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
         
         .logo i {
-            font-size: 2.4rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 2.2rem;
+            color: var(--primary);
         }
         
         .logo h1 {
-            font-size: 1.9rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
         }
         
         .logo span {
-            font-size: 0.9rem;
-            background: var(--accent);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            margin-left: 10px;
-            font-weight: 600;
+            color: var(--primary);
         }
         
-        .main-container {
-            max-width: 1300px;
-            margin: 2.5rem auto;
-            padding: 0 1.8rem;
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
         }
         
-        .card {
-            background: var(--card-bg);
-            border-radius: 18px;
-            padding: 2.2rem;
-            margin-bottom: 2.2rem;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(102, 16, 242, 0.15);
-            backdrop-filter: blur(12px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(106, 17, 203, 0.25);
-        }
-        
-        h2 {
-            font-size: 1.9rem;
-            margin-bottom: 1.8rem;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            border-radius: 4px;
-        }
-        
-        h2 i {
-            font-size: 1.6rem;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(102, 16, 242, 0.15);
-            border-radius: 12px;
-        }
-        
-        .input-group {
-            margin-bottom: 1.6rem;
-            position: relative;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.7rem;
-            font-weight: 600;
-            color: #d0d0ff;
-            font-size: 1.05rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        label i {
-            color: var(--accent);
-            font-size: 0.9rem;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            border-radius: 10px;
-            border: 1px solid rgba(102, 16, 242, 0.3);
-            background: rgba(30, 30, 50, 0.5);
-            color: var(--text-light);
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(255, 78, 80, 0.2);
-            background: rgba(40, 40, 65, 0.7);
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 1rem 1.8rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 6px 15px rgba(106, 17, 203, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-        
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(106, 17, 203, 0.6);
-        }
-        
-        .btn:hover::before {
-            left: 100%;
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-        }
-        
-        .btn-tertiary {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-        }
-        
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 65px;
-            height: 32px;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(102, 16, 242, 0.25);
-            transition: .4s;
-            border-radius: 34px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 24px;
-            width: 24px;
-            left: 4px;
-            bottom: 4px;
-            background-color: var(--light);
-            transition: .4s;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        input:checked + .slider {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(33px);
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.8rem;
-            margin-top: 1.8rem;
-        }
-        
-        .feature-card {
-            background: rgba(40, 40, 65, 0.7);
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
             border-radius: 16px;
-            padding: 1.8rem;
-            border: 1px solid rgba(102, 16, 242, 0.2);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
             position: relative;
             overflow: hidden;
         }
         
-        .feature-card::before {
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
@@ -303,327 +92,320 @@
             background: linear-gradient(to right, var(--primary), var(--accent));
         }
         
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .converter-card {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title i {
+            color: var(--primary);
+        }
+        
+        .input-group {
+            margin-bottom: 1.8rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid #dadce0;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+        
+        .btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1.1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+        }
+        
+        .btn-large {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, var(--accent), #2e8b47);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(to right, var(--warning), #e6a400);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary);
+        }
+        
         .feature-card:hover {
-            transform: translateY(-7px);
-            border-color: var(--accent);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
         
         .feature-card i {
-            font-size: 2.8rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1.2rem;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
         }
         
         .feature-card h3 {
             font-size: 1.4rem;
             margin-bottom: 1rem;
-            color: var(--accent);
+            color: var(--dark);
         }
         
-        .preview-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2.5rem;
-            align-items: flex-start;
-            margin-top: 2.5rem;
-        }
-        
-        .phone-mockup {
-            flex: 1;
-            min-width: 320px;
-            position: relative;
-            padding: 25px;
-            background: rgba(30, 30, 50, 0.95);
-            border-radius: 45px;
-            box-shadow: 0 40px 70px rgba(0, 0, 0, 0.5);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        
-        .phone-mockup::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40%;
-            height: 25px;
-            background: rgba(20, 20, 35, 0.95);
-            border-radius: 0 0 15px 15px;
-            z-index: 10;
-        }
-        
-        .phone-screen {
-            background: #0f0f1a;
-            border-radius: 8px;
-            height: 650px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        .phone-screen-inner {
-            height: 100%;
-            overflow-y: auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #1e1e2c, #2d2d44);
-            color: var(--text-light);
-        }
-        
-        .preview-controls {
-            flex: 1;
-            min-width: 320px;
-        }
-        
-        .color-picker {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-        
-        .color-option {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.2s ease;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-        
-        .color-option:hover, .color-option.active {
-            transform: scale(1.15);
-            border-color: white;
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.7;
         }
         
         .steps {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2.5rem;
-            padding: 0 1.5rem;
-            position: relative;
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin: 3rem 0;
         }
         
-        .steps::before {
-            content: '';
-            position: absolute;
-            top: 30px;
-            left: 10%;
-            right: 10%;
-            height: 4px;
-            background: rgba(102, 16, 242, 0.3);
-            border-radius: 4px;
-            z-index: 1;
+        .steps h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
         }
         
         .step {
             text-align: center;
-            flex: 1;
+            padding: 2rem;
+            border-radius: 16px;
+            background: #f8f9fa;
             position: relative;
-            z-index: 2;
         }
         
         .step-number {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: rgba(102, 16, 242, 0.2);
+            background: var(--primary);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.2rem;
-            font-weight: bold;
-            color: var(--accent);
             font-size: 1.5rem;
-            border: 3px solid rgba(102, 16, 242, 0.3);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .step.active .step-number {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(255, 78, 80, 0.4);
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
         }
         
         .step h3 {
             font-size: 1.3rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .step p {
+            color: var(--gray);
+        }
+        
+        .result {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+        
+        .result.active {
+            display: block;
+        }
+        
+        .result-icon {
+            font-size: 5rem;
             color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .result h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .result p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+        
+        .alternatives {
+            margin-top: 4rem;
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .alternatives h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+        
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .service:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .service h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .service a {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .service a:hover {
+            background: var(--secondary);
         }
         
         footer {
             text-align: center;
-            padding: 2.5rem;
-            margin-top: 2.5rem;
-            color: #a0a0c0;
+            padding: 3rem 0 1rem;
+            color: var(--gray);
             font-size: 1rem;
-            background: rgba(20, 20, 35, 0.8);
-            border-top: 1px solid rgba(102, 16, 242, 0.2);
-        }
-        
-        .progress-container {
-            height: 10px;
-            background: rgba(102, 16, 242, 0.2);
-            border-radius: 5px;
-            margin: 1.8rem 0;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 5px;
-            transition: width 1s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.15);
-            animation: progressShine 1.5s infinite;
-        }
-        
-        @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(200%); }
-        }
-        
-        .status-text {
-            text-align: center;
-            margin-top: 1rem;
-            font-weight: 600;
-            color: var(--accent);
-            min-height: 24px;
-        }
-        
-        .app-icon-preview {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: rgba(102, 16, 242, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 1rem 0;
-            overflow: hidden;
-            border: 2px solid rgba(102, 16, 242, 0.3);
-        }
-        
-        .app-icon-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            display: none;
-        }
-        
-        .setting-accordion {
-            margin-bottom: 1.5rem;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(102, 16, 242, 0.2);
-        }
-        
-        .accordion-header {
-            padding: 1.2rem;
-            background: rgba(40, 40, 65, 0.7);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: var(--accent);
-        }
-        
-        .accordion-content {
-            padding: 0 1.2rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            background: rgba(30, 30, 50, 0.5);
-        }
-        
-        .accordion-content.active {
-            padding: 1.2rem;
-            max-height: 1000px;
-        }
-        
-        .download-section {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(26, 188, 156, 0.1);
-            border-radius: 16px;
-            border: 1px solid rgba(26, 188, 156, 0.3);
-            margin-top: 2rem;
-            display: none;
-        }
-        
-        .download-btn {
-            margin-top: 1.5rem;
-            font-size: 1.2rem;
-            padding: 1.2rem 2.5rem;
-        }
-        
-        .code-preview {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-            font-family: monospace;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            max-height: 200px;
-        }
-        
-        @media (max-width: 992px) {
-            .grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-            
-            .steps::before {
-                left: 5%;
-                right: 5%;
-            }
+            margin-top: 3rem;
         }
         
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
+                gap: 1rem;
                 text-align: center;
-                gap: 1.2rem;
             }
             
-            .preview-section {
-                flex-direction: column;
+            .hero {
+                padding: 2rem 1rem;
             }
             
-            .steps {
-                flex-direction: column;
-                gap: 2.5rem;
+            .hero h2 {
+                font-size: 2rem;
             }
             
-            .steps::before {
-                display: none;
+            .converter-card {
+                padding: 2rem 1.5rem;
             }
             
-            .step-number {
-                width: 50px;
-                height: 50px;
-                font-size: 1.3rem;
+            .btn-large {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
             }
         }
     </style>
@@ -632,472 +414,179 @@
     <header>
         <div class="logo">
             <i class="fas fa-mobile-alt"></i>
-            <h1>Web2App Pro <span>v3.0</span></h1>
+            <h1>Web2<span>APK</span> Converter</h1>
         </div>
         <div>
             <button class="btn" id="helpBtn"><i class="fas fa-question-circle"></i> Bantuan</button>
         </div>
     </header>
     
-    <div class="main-container">
-        <div class="card">
-            <h2><i class="fas fa-globe"></i> Konversi Website</h2>
+    <div class="container">
+        <div class="hero">
+            <h2>Ubah Website Anda Menjadi Aplikasi Android</h2>
+            <p>Dengan Web2APK Converter, Anda dapat mengubah website apa pun menjadi aplikasi Android (APK) dalam beberapa langkah sederhana. Gratis dan tanpa coding!</p>
+            <button class="btn btn-large" id="startBtn"><i class="fas fa-play"></i> Mulai Sekarang</button>
+        </div>
+        
+        <div class="converter-card">
+            <h2 class="card-title"><i class="fas fa-globe"></i> Konversi Website ke APK</h2>
+            
             <div class="input-group">
                 <label for="websiteUrl"><i class="fas fa-link"></i> URL Website</label>
-                <input type="url" id="websiteUrl" placeholder="https://website-anda.com" value="https://example.com">
+                <input type="url" id="websiteUrl" placeholder="https://website-anda.com" value="https://">
             </div>
             
-            <div class="grid">
-                <div>
-                    <div class="input-group">
-                        <label for="appName"><i class="fas fa-font"></i> Nama Aplikasi</label>
-                        <input type="text" id="appName" placeholder="Nama Aplikasi Anda" value="Aplikasi Saya">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="packageName"><i class="fas fa-box"></i> Nama Paket (Package Name)</label>
-                        <input type="text" id="packageName" placeholder="com.contoh.aplikasi" value="com.contoh.aplikasi">
-                    </div>
-                </div>
-                
-                <div>
-                    <div class="input-group">
-                        <label><i class="fas fa-image"></i> Ikon Aplikasi</label>
-                        <input type="file" id="appIcon" accept="image/*">
-                        <div class="app-icon-preview">
-                            <img id="iconPreview" src="" alt="Preview Ikon">
-                            <i class="fas fa-image" id="defaultIcon"></i>
-                        </div>
-                    </div>
-                </div>
+            <div class="input-group">
+                <label for="appName"><i class="fas fa-font"></i> Nama Aplikasi</label>
+                <input type="text" id="appName" placeholder="Nama Aplikasi Anda">
             </div>
             
-            <button class="btn btn-tertiary" id="generateBtn"><i class="fas fa-cogs"></i> Generate Aplikasi</button>
-            
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div class="status-text" id="statusText"></div>
+            <button class="btn btn-large" id="convertBtn"><i class="fas fa-cogs"></i> Konversi ke APK</button>
         </div>
         
-        <div class="card">
-            <h2><i class="fas fa-sliders-h"></i> Pengaturan Lanjutan</h2>
-            
-            <div class="setting-accordion">
-                <div class="accordion-header" id="themeHeader">
-                    <span><i class="fas fa-paint-brush"></i> Tema & Tampilan</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="accordion-content" id="themeContent">
-                    <div class="grid">
-                        <div>
-                            <div class="input-group">
-                                <label>Warna Tema Utama</label>
-                                <div class="color-picker">
-                                    <div class="color-option active" style="background: #6a11cb;"></div>
-                                    <div class="color-option" style="background: #ff4e50;"></div>
-                                    <div class="color-option" style="background: #1ce37c;"></div>
-                                    <div class="color-option" style="background: #ff9a3c;"></div>
-                                    <div class="color-option" style="background: #2575fc;"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>Mode Tampilan</label>
-                                <select id="themeMode">
-                                    <option value="light">Light Mode</option>
-                                    <option value="dark">Dark Mode</option>
-                                    <option value="system">Sesuai Sistem</option>
-                                    <option value="adaptive">Adaptif</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <div class="input-group">
-                                <label>Orientasi Layar</label>
-                                <select id="orientation">
-                                    <option value="portrait">Portrait</option>
-                                    <option value="landscape">Landscape</option>
-                                    <option value="auto">Otomatis</option>
-                                    <option value="sensor">Sesuai Sensor</option>
-                                </select>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>Animasi Transisi</label>
-                                <select id="transitionAnimation">
-                                    <option value="fade">Fade</option>
-                                    <option value="slide">Slide</option>
-                                    <option value="zoom">Zoom</option>
-                                    <option value="flip">Flip</option>
-                                    <option value="none">Tidak Ada</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="setting-accordion">
-                <div class="accordion-header" id="securityHeader">
-                    <span><i class="fas fa-lock"></i> Keamanan & Izin</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="accordion-content" id="securityContent">
-                    <div class="grid">
-                        <div>
-                            <div class="input-group">
-                                <label>
-                                    <span>Izinkan Akses Kamera</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="cameraAccess">
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>
-                                    <span>Izinkan Akses Lokasi</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="locationAccess" checked>
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <div class="input-group">
-                                <label>
-                                    <span>Izinkan Akses File</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="fileAccess">
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>
-                                    <span>Mode Incognito</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="incognitoMode">
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="setting-accordion">
-                <div class="accordion-header" id="featureHeader">
-                    <span><i class="fas fa-bolt"></i> Fitur Lanjutan</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="accordion-content" id="featureContent">
-                    <div class="grid">
-                        <div>
-                            <div class="input-group">
-                                <label>
-                                    <span>Notifikasi Push</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="pushNotifications" checked>
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>
-                                    <span>Mode Offline</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="offlineMode">
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <div class="input-group">
-                                <label>
-                                    <span>Login Biometrik</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="biometricLogin">
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>
-                                    <span>Blokir Iklan</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="adBlocker" checked>
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="setting-accordion">
-                <div class="accordion-header" id="splashHeader">
-                    <span><i class="fas fa-image"></i> Splash Screen</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="accordion-content" id="splashContent">
-                    <div class="grid">
-                        <div>
-                            <div class="input-group">
-                                <label>
-                                    <span>Tampilkan Splash Screen</span>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="splashScreen" checked>
-                                        <span class="slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>Durasi Splash Screen (detik)</label>
-                                <input type="number" id="splashDuration" min="1" max="10" value="3">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>Warna Latar Belakang</label>
-                                <input type="color" id="splashBgColor" value="#1a1a2e">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <div class="input-group">
-                                <label>Upload Gambar Splash Screen</label>
-                                <input type="file" id="splashImage" accept="image/*">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>Teks Splash Screen</label>
-                                <input type="text" id="splashText" placeholder="Aplikasi Anda" value="Aplikasi Saya">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>Warna Teks</label>
-                                <input type="color" id="splashTextColor" value="#ffffff">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h2><i class="fas fa-eye"></i> Preview Aplikasi</h2>
-            
-            <div class="preview-section">
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="phone-screen-inner" id="appPreview">
-                            <h3 style="color: var(--accent); text-align: center; margin: 25px 0 15px;">Selamat Datang di Aplikasi Anda</h3>
-                            <p style="text-align: center; margin-bottom: 25px; color: #d0d0ff;">Ini adalah preview dari aplikasi yang akan dihasilkan</p>
-                            
-                            <div style="background: rgba(40, 40, 65, 0.7); padding: 25px; border-radius: 15px; margin-bottom: 25px; border-left: 4px solid var(--accent);">
-                                <h4 style="color: var(--accent); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                                    <i class="fas fa-star"></i> Fitur Utama
-                                </h4>
-                                <ul style="padding-left: 25px; list-style-type: none;">
-                                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
-                                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                                        <span>Konversi website menjadi aplikasi native</span>
-                                    </li>
-                                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
-                                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                                        <span>Kustomisasi tampilan lengkap</span>
-                                    </li>
-                                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
-                                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                                        <span>Fitur keamanan canggih</span>
-                                    </li>
-                                    <li style="display: flex; align-items: flex-start; gap: 10px;">
-                                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                                        <span>Dukungan mode offline</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            
-                            <div style="display: flex; gap: 15px; margin-top: 20px;">
-                                <button style="flex: 1; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                                    <i class="fas fa-home"></i> Beranda
-                                </button>
-                                <button style="flex: 1; background: rgba(255, 78, 80, 0.15); color: var(--accent); border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                                    <i class="fas fa-cog"></i> Pengaturan
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="preview-controls">
-                    <div class="input-group">
-                        <label>Warna Status Bar</label>
-                        <select id="statusBarColor">
-                            <option value="default">Default</option>
-                            <option value="primary">Warna Utama</option>
-                            <option value="dark">Gelap</option>
-                            <option value="light">Terang</option>
-                            <option value="transparent">Transparan</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Navigasi Bar</label>
-                        <select id="navBar">
-                            <option value="enabled">Aktif</option>
-                            <option value="disabled">Nonaktif</option>
-                            <option value="immersive">Immersive Mode</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Zoom Halaman</label>
-                        <select id="pageZoom">
-                            <option value="default">Default</option>
-                            <option value="enabled">Diperbolehkan</option>
-                            <option value="disabled">Diblock</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Cache Management</label>
-                        <select id="cacheManagement">
-                            <option value="default">Default</option>
-                            <option value="aggressive">Agresif</option>
-                            <option value="conservative">Konservatif</option>
-                        </select>
-                    </div>
-                    
-                    <button class="btn" id="refreshPreview"><i class="fas fa-sync-alt"></i> Refresh Preview</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h2><i class="fas fa-cogs"></i> Proses Konversi</h2>
-            
-            <div class="steps">
-                <div class="step active" id="step1">
+        <div class="steps">
+            <h2>Cara Menggunakan Web2APK Converter</h2>
+            <div class="steps-grid">
+                <div class="step">
                     <div class="step-number">1</div>
-                    <h3>Masukkan URL</h3>
-                    <p>Website Anda akan dianalisis</p>
+                    <h3>Masukkan URL Website</h3>
+                    <p>Masukkan URL website yang ingin Anda ubah menjadi aplikasi Android</p>
                 </div>
                 
-                <div class="step" id="step2">
+                <div class="step">
                     <div class="step-number">2</div>
-                    <h3>Konfigurasi</h3>
-                    <p>Atur pengaturan aplikasi</p>
+                    <h3>Beri Nama Aplikasi</h3>
+                    <p>Beri nama untuk aplikasi Anda yang akan muncul di perangkat Android</p>
                 </div>
                 
-                <div class="step" id="step3">
+                <div class="step">
                     <div class="step-number">3</div>
-                    <h3>Build APK</h3>
-                    <p>Proses konversi ke Android</p>
+                    <h3>Konversi ke APK</h3>
+                    <p>Klik tombol konversi untuk membuka PWA Builder</p>
                 </div>
                 
-                <div class="step" id="step4">
+                <div class="step">
                     <div class="step-number">4</div>
-                    <h3>Selesai</h3>
-                    <p>Download aplikasi</p>
+                    <h3>Download APK</h3>
+                    <p>Di PWA Builder, ikuti langkah-langkah untuk membuat dan download APK</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result" id="resultSection">
+            <div class="result-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Konversi Siap Dilakukan!</h2>
+            <p>Kami akan membuka PWA Builder untuk mengonversi website Anda menjadi aplikasi Android. Di PWA Builder, silakan ikuti langkah-langkah berikut:</p>
+            
+            <div class="steps-grid" style="margin: 2rem auto; max-width: 800px;">
+                <div class="step">
+                    <div class="step-number"><i class="fas fa-mouse-pointer"></i></div>
+                    <h3>Klik "Build My PWA"</h3>
+                    <p>Setelah website dianalisis, klik tombol Build My PWA</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number"><i class="fab fa-android"></i></div>
+                    <h3>Pilih Platform Android</h3>
+                    <p>Pilih opsi Android untuk membuat APK</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number"><i class="fas fa-download"></i></div>
+                    <h3>Download APK</h3>
+                    <p>Download file APK yang dihasilkan</p>
                 </div>
             </div>
             
-            <div class="download-section" id="downloadSection">
-                <h3><i class="fas fa-check-circle" style="color: var(--success);"></i> Aplikasi Berhasil Dibuat!</h3>
-                <p>File APK siap diunduh. Klik tombol di bawah untuk mengunduh aplikasi Android Anda.</p>
-                <button class="btn download-btn" id="downloadBtn"><i class="fas fa-download"></i> Download APK (app-release.apk)</button>
-                <p style="margin-top: 15px; font-size: 0.9rem;">Ukuran file: 15.7 MB | Versi: 1.0.0</p>
-                
-                <div class="code-preview" id="codePreview">
-                    // Kode sumber aplikasi akan ditampilkan di sini
+            <button class="btn btn-success btn-large" id="openPwaBuilderBtn"><i class="fas fa-external-link-alt"></i> Buka PWA Builder</button>
+        </div>
+        
+        <div class="alternatives">
+            <h2>Alternatif Layanan Web to APK</h2>
+            <div class="services">
+                <div class="service">
+                    <i class="fas fa-sync-alt"></i>
+                    <h3>TurnsApp</h3>
+                    <p>Konversi website menjadi aplikasi Android dengan mudah</p>
+                    <a href="https://www.turnsapp.com/" target="_blank">Kunjungi</a>
                 </div>
+                
+                <div class="service">
+                    <i class="fab fa-android"></i>
+                    <h3>GoNative</h3>
+                    <p>Platform untuk membuat aplikasi native dari website</p>
+                    <a href="https://gonative.io/" target="_blank">Kunjungi</a>
+                </div>
+                
+                <div class="service">
+                    <i class="fas fa-window-restore"></i>
+                    <h3>WebIntoApp</h3>
+                    <p>Konversi website ke APK dengan fitur tambahan</p>
+                    <a href="https://www.webintoapp.com/" target="_blank">Kunjungi</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Proses Cepat</h3>
+                <p>Ubah website menjadi aplikasi Android hanya dalam beberapa menit tanpa perlu keahlian teknis</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Fitur Native</h3>
+                <p>Akses fitur native perangkat seperti kamera, GPS, notifikasi, dan lainnya</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>Aman & Terpercaya</h3>
+                <p>Gunakan PWA Builder dari Microsoft yang aman dan terpercaya untuk konversi aplikasi</p>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>© 2023 Web2App Pro - Konversi website menjadi aplikasi Android dengan mudah dan cepat</p>
-        <p>Dukungan: Android 5.0+ | Format Output: APK | Gratis untuk Penggunaan Pribadi</p>
+        <p>© 2023 Web2APK Converter - Layanan untuk mengubah website menjadi aplikasi Android</p>
+        <p>Dikembangkan dengan PWA Builder dari Microsoft</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Accordion functionality
-            const accordionHeaders = document.querySelectorAll('.accordion-header');
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', function() {
-                    const content = this.nextElementSibling;
-                    content.classList.toggle('active');
-                    const icon = this.querySelector('.fa-chevron-down');
-                    icon.classList.toggle('fa-rotate-180');
-                });
-            });
+            const convertBtn = document.getElementById('convertBtn');
+            const resultSection = document.getElementById('resultSection');
+            const openPwaBuilderBtn = document.getElementById('openPwaBuilderBtn');
+            const startBtn = document.getElementById('startBtn');
             
-            // App icon preview
-            const appIconInput = document.getElementById('appIcon');
-            const iconPreview = document.getElementById('iconPreview');
-            const defaultIcon = document.getElementById('defaultIcon');
+            // Set default app name based on URL
+            const websiteUrlInput = document.getElementById('websiteUrl');
+            const appNameInput = document.getElementById('appName');
             
-            appIconInput.addEventListener('change', function(e) {
-                if (e.target.files && e.target.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        iconPreview.src = e.target.result;
-                        iconPreview.style.display = 'block';
-                        defaultIcon.style.display = 'none';
-                    };
-                    reader.readAsDataURL(e.target.files[0]);
+            websiteUrlInput.addEventListener('blur', function() {
+                if (!appNameInput.value) {
+                    const url = websiteUrlInput.value;
+                    if (url && url !== 'https://') {
+                        const domain = url.replace('https://', '').replace('http://', '').split('/')[0];
+                        appNameInput.value = domain.charAt(0).toUpperCase() + domain.slice(1);
+                    }
                 }
             });
             
-            // Color picker
-            const colorOptions = document.querySelectorAll('.color-option');
-            colorOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    colorOptions.forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Ubah warna tema utama
-                    const color = this.style.backgroundColor;
-                    document.documentElement.style.setProperty('--primary', color);
-                    
-                    // Buat variasi warna untuk secondary
-                    const rgb = color.match(/\d+/g);
-                    if (rgb && rgb.length >= 3) {
-                        const r = Math.max(0, parseInt(rgb[0]) - 30);
-                        const g = Math.max(0, parseInt(rgb[1]) - 30);
-                        const b = Math.max(0, parseInt(rgb[2]) - 20);
-                        document.documentElement.style.setProperty('--secondary', `rgb(${r}, ${g}, ${b})`);
-                    }
+            // Start button scroll to converter
+            startBtn.addEventListener('click', function() {
+                document.querySelector('.converter-card').scrollIntoView({
+                    behavior: 'smooth'
                 });
             });
             
-            // Generate APK functionality
-            const generateBtn = document.getElementById('generateBtn');
-            const progressBar = document.getElementById('progressBar');
-            const statusText = document.getElementById('statusText');
-            const downloadSection = document.getElementById('downloadSection');
-            const steps = document.querySelectorAll('.step');
-            const codePreview = document.getElementById('codePreview');
-            
-            generateBtn.addEventListener('click', function() {
-                const websiteUrl = document.getElementById('websiteUrl').value;
-                const appName = document.getElementById('appName').value;
-                const packageName = document.getElementById('packageName').value;
+            // Convert to APK
+            convertBtn.addEventListener('click', function() {
+                const websiteUrl = websiteUrlInput.value;
+                const appName = appNameInput.value;
                 
                 if (!websiteUrl || websiteUrl === 'https://') {
                     alert('Silakan masukkan URL website yang valid!');
@@ -1109,271 +598,25 @@
                     return;
                 }
                 
-                if (!packageName) {
-                    alert('Silakan masukkan nama paket aplikasi!');
-                    return;
-                }
-                
-                // Reset progress
-                progressBar.style.width = '0%';
-                statusText.textContent = 'Memulai proses konversi...';
-                downloadSection.style.display = 'none';
-                
-                // Reset steps
-                steps.forEach(step => step.classList.remove('active'));
-                document.getElementById('step1').classList.add('active');
-                
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += Math.random() * 10;
-                    
-                    if (progress >= 25 && progress < 50) {
-                        document.getElementById('step2').classList.add('active');
-                        statusText.textContent = 'Menganalisis website...';
-                    } else if (progress >= 50 && progress < 75) {
-                        document.getElementById('step3').classList.add('active');
-                        statusText.textContent = 'Membangun aplikasi Android...';
-                    } else if (progress >= 75) {
-                        document.getElementById('step4').classList.add('active');
-                        statusText.textContent = 'Menyelesaikan proses...';
-                    }
-                    
-                    if (progress >= 100) {
-                        progress = 100;
-                        clearInterval(interval);
-                        progressBar.style.width = progress + '%';
-                        statusText.textContent = 'Aplikasi berhasil dibuat!';
-                        
-                        // Generate APK file
-                        generateAPK(websiteUrl, appName, packageName);
-                        
-                        // Show download section
-                        downloadSection.style.display = 'block';
-                        
-                        // Scroll to download section
-                        downloadSection.scrollIntoView({behavior: 'smooth'});
-                    }
-                    
-                    progressBar.style.width = progress + '%';
-                }, 300);
+                // Show result section
+                resultSection.classList.add('active');
+                resultSection.scrollIntoView({behavior: 'smooth'});
             });
             
-            // Function to generate APK file
-            function generateAPK(websiteUrl, appName, packageName) {
-                // Generate AndroidManifest.xml content
-                const manifestContent = `<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="${packageName}">
-    
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
-    <application
-        android:name=".MainApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="${appName}"
-        android:theme="@style/AppTheme">
-        
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="${appName}"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-    </application>
-</manifest>`;
+            // Open PWA Builder
+            openPwaBuilderBtn.addEventListener('click', function() {
+                const websiteUrl = websiteUrlInput.value;
+                const appName = appNameInput.value;
                 
-                // Generate MainActivity.java content
-                const javaContent = `package ${packageName};
-
-import android.os.Bundle;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-    private WebView webView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        
-        webView = findViewById(R.id.webview);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
-        
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("${websiteUrl}");
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-}`;
-                
-                // Generate activity_main.xml content
-                const layoutContent = `<?xml version="1.0" encoding="utf-8"?>
-<WebView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/webview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />`;
-                
-                // Display code preview
-                codePreview.textContent = manifestContent + "\n\n" + javaContent + "\n\n" + layoutContent;
-            }
-            
-            // Download APK functionality
-            const downloadBtn = document.getElementById('downloadBtn');
-            downloadBtn.addEventListener('click', function() {
-                const websiteUrl = document.getElementById('websiteUrl').value;
-                const appName = document.getElementById('appName').value;
-                const packageName = document.getElementById('packageName').value;
-                
-                // Create zip file with APK contents
-                const zip = new JSZip();
-                
-                // Add AndroidManifest.xml
-                const manifestContent = `<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="${packageName}">
-    
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
-    <application
-        android:name=".MainApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="${appName}"
-        android:theme="@style/AppTheme">
-        
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="${appName}"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-    </application>
-</manifest>`;
-                
-                // Add MainActivity.java
-                const javaContent = `package ${packageName};
-
-import android.os.Bundle;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-    private WebView webView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        
-        webView = findViewById(R.id.webview);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
-        
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("${websiteUrl}");
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-}`;
-                
-                // Add activity_main.xml
-                const layoutContent = `<?xml version="1.0" encoding="utf-8"?>
-<WebView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/webview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />`;
-                
-                // Create directory structure
-                const srcFolder = zip.folder("src/main/java/" + packageName.replace(/\./g, '/'));
-                srcFolder.file("MainActivity.java", javaContent);
-                
-                const resFolder = zip.folder("src/main/res/layout");
-                resFolder.file("activity_main.xml", layoutContent);
-                
-                const manifestFolder = zip.folder("src/main");
-                manifestFolder.file("AndroidManifest.xml", manifestContent);
-                
-                // Generate zip file
-                zip.generateAsync({type:"blob"}).then(function(content) {
-                    // Save the zip file
-                    saveAs(content, "android-app-source.zip");
-                });
+                // Open PWA Builder with parameters
+                window.open(`https://www.pwabuilder.com/?url=${encodeURIComponent(websiteUrl)}&name=${encodeURIComponent(appName)}`, '_blank');
             });
             
-            // Refresh preview
-            const refreshBtn = document.getElementById('refreshPreview');
-            refreshBtn.addEventListener('click', function() {
-                const appPreview = document.getElementById('appPreview');
-                appPreview.style.opacity = '0.5';
-                
-                setTimeout(() => {
-                    appPreview.style.opacity = '1';
-                    // In a real app, this would update the preview based on settings
-                }, 300);
+            // Help button
+            document.getElementById('helpBtn').addEventListener('click', function() {
+                alert('Masukkan URL website dan nama aplikasi, lalu klik "Konversi ke APK". Setelah itu, ikuti instruksi di PWA Builder untuk mendownload file APK.');
             });
-            
-            // Set default package name based on app name
-            const appNameInput = document.getElementById('appName');
-            const packageNameInput = document.getElementById('packageName');
-            
-            appNameInput.addEventListener('input', function() {
-                if (!packageNameInput.value) {
-                    const name = appNameInput.value.toLowerCase().replace(/\s+/g, '_');
-                    packageNameInput.value = `com.${name}.app`;
-                }
-            });
-            
-            // Initialize
-            document.getElementById('themeContent').classList.add('active');
         });
     </script>
 </body>
 </html>
-           
