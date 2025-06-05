@@ -587,4 +587,130 @@
                         </select>
                     </div>
                     
-                    <di
+                    <div class="input-group">
+                        <label>Animasi Transisi</label>
+                        <select id="transitionAnimation">
+                            <option value="fade">Fade</option>
+                            <option value="slide">Slide</option>
+                            <option value="zoom">Zoom</option>
+                            <option value="none">Tidak Ada</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Upload Gambar Splash Screen</label>
+                        <input type="file" id="splashImage" accept="image/*">
+                    </div>
+                    
+                    <button class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Refresh Preview</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-cogs"></i> Proses Konversi</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Masukkan URL</h3>
+                    <p>Website Anda akan dianalisis</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Konfigurasi</h3>
+                    <p>Atur pengaturan aplikasi</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Build APK</h3>
+                    <p>Proses konversi ke Android</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Selesai</h3>
+                    <p>Download aplikasi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Web2App Converter &copy; 2023 - Ubah website Anda menjadi aplikasi Android dengan mudah</p>
+        <p>Dukungan: Android 5.0+ | Format Output: APK | Gratis untuk Penggunaan Pribadi</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulasi progress bar
+            const generateBtn = document.getElementById('generateBtn');
+            const progressBar = document.getElementById('progressBar');
+            
+            generateBtn.addEventListener('click', function() {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        
+                        // Tampilkan notifikasi
+                        setTimeout(() => {
+                            alert('Aplikasi berhasil dibuat! Silakan download file APK.');
+                        }, 500);
+                    }
+                    progressBar.style.width = progress + '%';
+                }, 200);
+            });
+            
+            // Color picker
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Ubah warna tema utama
+                    const color = this.style.backgroundColor;
+                    document.documentElement.style.setProperty('--primary', color);
+                    
+                    // Buat variasi warna untuk secondary
+                    const rgb = color.match(/\d+/g);
+                    const r = Math.max(0, parseInt(rgb[0]) - 30);
+                    const g = Math.max(0, parseInt(rgb[1]) - 30);
+                    const b = Math.max(0, parseInt(rgb[2]) - 20);
+                    document.documentElement.style.setProperty('--secondary', `rgb(${r}, ${g}, ${b})`);
+                });
+            });
+            
+            // Update preview saat pengaturan diubah
+            const settings = [
+                'themeMode', 'orientation', 'cameraAccess', 'locationAccess',
+                'fileAccess', 'incognitoMode', 'pushNotifications', 'offlineMode',
+                'biometricLogin', 'adBlocker', 'splashScreen', 'splashDuration',
+                'statusBarColor', 'transitionAnimation'
+            ];
+            
+            settings.forEach(setting => {
+                const element = document.getElementById(setting);
+                if (element) {
+                    element.addEventListener('change', updatePreview);
+                }
+            });
+            
+            function updatePreview() {
+                // Dalam implementasi nyata, ini akan memperbarui preview
+                console.log('Pengaturan diperbarui:', {
+                    themeMode: document.getElementById('themeMode').value,
+                    orientation: document.getElementById('orientation').value,
+                    splashScreen: document.getElementById('splashScreen').checked,
+                    splashDuration: document.getElementById('splashDuration').value
+                });
+            }
+        });
+    </script>
+</body>
+</html>
